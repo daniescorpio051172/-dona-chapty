@@ -1,0 +1,16 @@
+{
+  "name": "dona-chapty",
+  "version": "1.0.0",
+  "description": "Doña Chapty - Tarot, Cartomancia y Guía Espiritual",
+  "main": "www/index.html",
+  "scripts": {
+    "build": "echo 'Archivos listos'"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/android": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}

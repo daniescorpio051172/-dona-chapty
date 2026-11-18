@@ -1,0 +1,6 @@
+{
+  "appId": "com.bienestarpositivo.donachapty",
+  "appName": "Doña Chapty",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

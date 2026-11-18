@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Doña Chapty - Tarot y Cartomancia</title>
+  <style>
+    :root {
+      --bg-dark: #12091c;
+      --bg-card: #211134;
+      --gold: #f4c95d;
+      --gold-soft: rgba(244, 201, 93, 0.25);
+      --purple-glow: #7b3fe4;
+      --text-main: #f7f2ff;
+      --text-muted: #cbbbe0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at top, #2a1347 0%, var(--bg-dark) 75%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 16px 36px;
+    }
+
+    header {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f4c95d, #b87d1e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 16px rgba(244, 201, 93, 0.45);
+    }
+
+    .brand h1 {
+      font-size: 1.35rem;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .brand p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .btn-settings {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--gold-soft);
+      color: var(--gold);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(33, 17, 52, 0.88);
+      border: 1px solid var(--gold-soft);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      margin-bottom: 16px;
+    }
+
+    .greeting {
+      font-size: 0.98rem;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    .greeting strong {
+      color: var(--gold);
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(14, 7, 24, 0.75);
+      border: 1px solid var(--gold-soft);
+      border-radius: 14px;
+      color: var(--text-main);
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    textarea::placeholder {
+      color: #8f7ba8;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #f4c95d, #d4962a);
+      color: #1b0d29;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(244, 201, 93, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tarot-card {
+      background: linear-gradient(160deg, #351a57, #1a0c2b);
+      border: 1.5px solid var(--gold);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      min-height: 138px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-pos {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .card-symbol {
+      font-size: 2rem;
+      margin: 6px 0;
+    }
+
+    .card-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .reading-box {
+      display: none;
+      margin-top: 16px;
+      background: rgba(16, 8, 28, 0.85);
+      border-left: 3px solid var(--gold);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      color: var(--text-main);
+    }
+
+    .reading-box h3 {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 400px;
+      background: #211134;
+      border: 1px solid var(--gold);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .modal-card h2 {
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    input[type="url"] {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-soft);
+      background: #12091c;
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 11px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-soft);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🔮</div>
+      <div>
+        <h1>Doña Chapty</h1>
+        <p>Cartomancia y Guía Espiritual</p>
+      </div>
+    </div>
+    <button class="btn-settings" onclick="abrirConfig()">⚙️ Servidor</button>
+  </header>
+
+  <main class="panel">
+    <p class="greeting">
+      Pasá, sentate tranquilo que ya prendí el sahumerio. Contame <strong>qué te anda dando vueltas en la cabeza</strong> (amor, trabajo, plata o una decisión) y tiramos tres cartas para ver qué dicen los arcanos.
+    </p>
+
+    <textarea id="consulta" rows="3" placeholder="Escribí acá tu consulta o dejalo en blanco para una lectura general del día..."></textarea>
+
+    <button class="btn-primary" id="btnTirar" onclick="tirarCartas()">✨ Mezclar y Tirar 3 Cartas</button>
+
+    <div class="cards-grid" id="tablero" style="display:none;">
+      <div class="tarot-card">
+        <span class="card-pos">Lo que viene de atrás</span>
+        <span class="card-symbol" id="sym0">🌙</span>
+        <span class="card-name" id="nom0">-</span>
+      </div>
+      <div class="tarot-card">
+        <span class="card-pos">Tu presente</span>
+        <span class="card-symbol" id="sym1">☀️</span>
+        <span class="card-name" id="nom1">-</span>
+      </div>
+      <div class="tarot-card">
+        <span class="card-pos">Lo que se abre</span>
+        <span class="card-symbol" id="sym2">⭐</span>
+        <span class="card-name" id="nom2">-</span>
+      </div>
+    </div>
+
+    <div class="reading-box" id="lecturaBox">
+      <h3>La palabra de Doña Chapty:</h3>
+      <div id="lecturaTexto"></div>
+    </div>
+  </main>
+
+  <div class="modal-bg" id="modalConfig">
+    <div class="modal-card">
+      <h2>Conexión con tu Servidor</h2>
+      <p>Si ya tenés la dirección de tu Cloudflare Worker, pegala acá abajo para potenciar las lecturas con IA en la nube. Si lo dejás vacío, Doña Chapty funciona directo con su mazo interno.</p>
+      <input type="url" id="workerUrl" placeholder="https://tu-worker.workers.dev" />
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="cerrarConfig()">Cancelar</button>
+        <button class="btn-primary" style="flex:1; padding:11px;" onclick="guardarConfig()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ARCANOS = [
+      { nombre: "El Sol", simbolo: "☀️", msg: "Claridad total y caminos que se destraban. Lo que estaba frenado empieza a moverse a tu favor." },
+      { nombre: "La Estrella", simbolo: "⭐", msg: "Fe renovada y protección. Mantené la calma porque la oportunidad justa llega en el momento exacto." },
+      { nombre: "La Rueda de la Fortuna", simbolo: "🎡", msg: "Giro inesperado y positivo. Un cambio de aire te saca de la rutina y trae movimiento económico." },
+      { nombre: "El Mago", simbolo: "🪄", msg: "Tenés todas las herramientas en tus manos para concretar ese proyecto. Confía en tu ingenio." },
+      { nombre: "La Fuerza", simbolo: "🦁", msg: "Templanza y coraje. No hace falta apurarse: con firmeza y paciencia dominás cualquier situación." },
+      { nombre: "La Emperatriz", simbolo: "👑", msg: "Abundancia, creatividad y buenos frutos. Es tiempo de sembrar ideas nuevas porque van a crecer." },
+      { nombre: "El Carro", simbolo: "🐎", msg: "Avance decidido. Tomá el volante con seguridad y no mires para atrás; el triunfo depende de tu enfoque." },
+      { nombre: "La Luna", simbolo: "🌙", msg: "Escuchá tu intuición antes de firmar o decidir. No todo lo que brilla es oro; observá en silencio." },
+      { nombre: "La Justicia", simbolo: "⚖️", msg: "Equilibrio y papeles que se ordenan. Cada esfuerzo honesto que hiciste empieza a dar su recompensa." },
+      { nombre: "El Mundo", simbolo: "🌍", msg: "Cierre de una etapa pesada y apertura hacia algo mucho más grande. Éxito asegurado si das el paso." }
+    ];
+
+    function abrirConfig() {
+      document.getElementById("workerUrl").value = localStorage.getItem("chapty_worker_url") || "";
+      document.getElementById("modalConfig").style.display = "flex";
+    }
+
+    function cerrarConfig() {
+      document.getElementById("modalConfig").style.display = "none";
+    }
+
+    function guardarConfig() {
+      const url = document.getElementById("workerUrl").value.trim();
+      localStorage.setItem("chapty_worker_url", url);
+      cerrarConfig();
+    }
+
+    async function tirarCartas() {
+      const btn = document.getElementById("btnTirar");
+      const consulta = document.getElementById("consulta").value.trim();
+      btn.disabled = true;
+      btn.textContent = "🔮 Mezclando el mazo...";
+
+      const mazo = [...ARCANOS].sort(() => Math.random() - 0.5).slice(0, 3);
+
+      for (let i = 0; i < 3; i++) {
+        document.getElementById("sym" + i).textContent = mazo[i].simbolo;
+        document.getElementById("nom" + i).textContent = mazo[i].nombre;
+      }
+      document.getElementById("tablero").style.display = "grid";
+
+      const workerUrl = localStorage.getItem("chapty_worker_url");
+      const lecturaBox = document.getElementById("lecturaBox");
+      const lecturaTexto = document.getElementById("lecturaTexto");
+
+      if (workerUrl) {
+        try {
+          const resp = await fetch(workerUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              consulta: consulta || "Lectura general del día",
+              cartas: mazo.map(c => c.nombre)
+            })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.respuesta || data.reply || data.text) {
+              lecturaTexto.innerHTML = (data.respuesta || data.reply || data.text).replace(/
+/g, "<br>");
+              lecturaBox.style.display = "block";
+              btn.disabled = false;
+              btn.textContent = "✨ Volver a Tirar Cartas";
+              return;
+            }
+          }
+        } catch (e) {
+          console.log("Usando lectura local:", e);
+        }
+      }
+
+      const intro = consulta
+        ? `Mirá lo que me dicen las cartas sobre <em>"${consulta}"</em>:<br><br>`
+        : `Mirá el mensaje que te dejan los arcanos hoy:<br><br>`;
+
+      lecturaTexto.innerHTML =
+        intro +
+        `• <strong>${mazo[0].nombre}:</strong> ${mazo[0].msg}<br><br>` +
+        `• <strong>${mazo[1].nombre}:</strong> ${mazo[1].msg}<br><br>` +
+        `• <strong>${mazo[2].nombre}:</strong> ${mazo[2].msg}<br><br>` +
+        `<em>Consejo de Doña Chapty:</em> Prendé una velita blanca, agradecé lo que ya tenés y avanzá con fe que el camino está abierto.`;
+
+      lecturaBox.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "✨ Volver a Tirar Cartas";
+    }
+  </script>
+</body>
+</html>
